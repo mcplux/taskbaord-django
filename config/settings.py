@@ -23,6 +23,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ---------------------------------------- APPS
 
 LOCAL_APPS = [
+    "apps.accounts",
     "apps.core",
 ]
 
@@ -100,7 +101,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.User"
+
+AUTHENTICATION_BACKENDS = ["apps.accounts.backends.VerifiedUserBackend"]
 
 # LOGIN_URL = ""
 # LOGIN_REDIRECT_URL = ""
