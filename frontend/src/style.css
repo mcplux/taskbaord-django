@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+@source "../../templates/";
+@source "../../apps/**/*.py";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+[x-cloak] {
+  display: none !important;
+}
