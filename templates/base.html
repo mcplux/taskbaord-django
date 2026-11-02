@@ -26,8 +26,6 @@
       class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-800 dark:text-white antialiased
           {% block body_class %}{% endblock %}">
 {% block content %} {% endblock %}
-<button x-data @click="$store.theme.cycle()"
-        x-text="{ light: '☀️', dark: '🌙', system: '💻' }[$store.theme.mode]"></button>
 </body>
 </html>
 

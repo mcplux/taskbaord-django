@@ -1,0 +1,14 @@
+{% load i18n %}
+<footer class="border-t border-slate-200 dark:border-slate-700">
+  <div
+      class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-6 text-sm text-slate-500 dark:text-slate-400">
+    <p>&copy; {% now "Y" %} Taskboard</p>
+    <nav aria-label="{% translate 'Footer' %}">
+      <ul class="flex gap-6">
+        <li><a href="{% url 'cms:home' %}" class="hover:underline">{% translate "Home" %}</a></li>
+        <li><a href="#" class="hover:underline">{% translate "About" %}</a></li>
+        <li><a href="#" class="hover:underline">{% translate "Log in" %}</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>

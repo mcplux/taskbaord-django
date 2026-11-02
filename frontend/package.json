@@ -13,6 +13,8 @@
     "htmx.org": "^2.0.11"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.150",
+    "@iconify/tailwind4": "^1.2.3",
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.20",

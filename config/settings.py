@@ -24,10 +24,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 LOCAL_APPS = [
     "apps.accounts",
+    "apps.cms",
     "apps.core",
 ]
 
 THIRD_PARTY_APPS = [
+    "django_ckeditor_5",
     "django_vite",
 ]
 
@@ -113,6 +115,9 @@ AUTHENTICATION_BACKENDS = ["apps.accounts.backends.VerifiedUserBackend"]
 # ---------------------------------------- I18N
 
 LANGUAGE_CODE = "en-us"
+LANGUAGES = [
+    ("en", "English"),
+]
 TIME_ZONE = env.TIMEZONE
 USE_I18N = True
 USE_TZ = True
@@ -137,4 +142,33 @@ DJANGO_VITE = {
         "dev_server_port": 5173,
         "manifest_path": FRONTEND_DIR / "dist" / "manifest.json",
     }
+}
+
+# ---------------------------------------- CKEDITOR
+
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"
+CKEDITOR_5_UPLOAD_FILE_TYPES = ["jpg", "jpeg", "png", "gif", "webp"]
+CKEDITOR_5_MAX_FILE_SIZE = 5  # MB
+
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": {
+            "items": [
+                "heading",
+                "|",
+                "bold",
+                "italic",
+                "link",
+                "|",
+                "bulletedList",
+                "numberedList",
+                "blockQuote",
+                "|",
+                "imageUpload",
+                "insertTable",
+            ],
+        },
+        "image": {"toolbar": ["imageTextAlternative"]},
+        "table": {"contentToolbar": ["tableColumn", "tableRow", "mergeTableCells"]},
+    },
 }

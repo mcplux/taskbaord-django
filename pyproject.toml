@@ -4,6 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.15"
 dependencies = [
     "django>=6.1.2",
+    "django-ckeditor-5>=0.2.20",
     "django-stubs-ext>=6.1.2",
     "django-vite>=3.2.0",
     "psycopg[binary]>=3.3.6",
@@ -46,12 +47,13 @@ known-first-party = ["apps", "config"]
 
 [tool.mypy]
 python_version = "3.14"
+explicit_package_bases = true
 plugins = ["mypy_django_plugin.main"]
 strict = true
 exclude = ["\\.venv/", "node_modules/", "/migrations/"]
 
 [[tool.mypy.overrides]]
-module = ["environ.*", "django_browser_reload.*"]
+module = ["environ.*", "django_browser_reload.*", "django_ckeditor_5.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
