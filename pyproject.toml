@@ -3,23 +3,23 @@ name = "taskboard-django"
 version = "0.1.0"
 requires-python = ">=3.15"
 dependencies = [
-    "django>=6.1.2",
-    "django-ckeditor-5>=0.2.20",
-    "django-stubs-ext>=6.1.2",
-    "django-vite>=3.2.0",
-    "psycopg[binary]>=3.3.6",
-    "pydantic-settings>=2.16.2",
+  "django>=6.1.2",
+  "django-ckeditor-5>=0.2.20",
+  "django-stubs-ext>=6.1.2",
+  "django-vite>=3.2.0",
+  "psycopg[binary]>=3.3.6",
+  "pydantic-settings>=2.16.2",
 ]
 
 [dependency-groups]
 dev = [
-    "django-browser-reload>=1.21.0",
-    "django-stubs[compatible-mypy]>=6.1.2",
-    "mypy>=2.4.1",
-    "pytest>=9.2.0",
-    "pytest-cov>=7.1.0",
-    "pytest-django>=4.14.0",
-    "ruff>=0.17.3",
+  "django-browser-reload>=1.21.0",
+  "django-stubs[compatible-mypy]>=6.1.2",
+  "mypy>=2.4.1",
+  "pytest>=9.2.0",
+  "pytest-cov>=7.1.0",
+  "pytest-django>=4.14.0",
+  "ruff>=0.17.3",
 ]
 
 [tool.ruff]
@@ -28,19 +28,7 @@ line-length = 100
 extend-exclude = ["**/migrations/*.py"]
 
 [tool.ruff.lint]
-select = [
-    "E",
-    "W",
-    "F",
-    "I",
-    "UP",
-    "B",
-    "DJ",
-    "SIM",
-    "C4",
-    "PT",
-    "RUF",
-]
+select = ["E", "W", "F", "I", "UP", "B", "DJ", "SIM", "C4", "PT", "RUF"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["apps", "config"]

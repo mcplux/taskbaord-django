@@ -8,10 +8,5 @@
   "useTabs": false,
   "arrowParens": "always",
   "endOfLine": "lf",
-  "ignorePatterns": [
-    "dist/**",
-    "build/**",
-    "coverage/**",
-    "node_modules/**"
-  ]
+  "ignorePatterns": ["dist/**", "build/**", "coverage/**", "node_modules/**"]
 }

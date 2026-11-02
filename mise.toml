@@ -9,3 +9,142 @@ PROJECT_NAME = "{{ config_root | basename }}"
 _.python.venv = { path = ".venv", create = true }
 _.path = ['{{config_root}}/frontend/node_modules/.bin']
 
+# ---------------------------------------- SETUP
+
+[tasks.setup]
+description = "Create .env if missing and install all dependencies"
+depends = ["install:*"]
+run = "[ -f .env ] || cp .env.example .env"
+
+[tasks."install:back"]
+description = "Install Python dependencies"
+run = "uv sync"
+
+[tasks."install:front"]
+description = "Install frontend dependencies"
+dir = "frontend"
+run = "pnpm install"
+
+# ---------------------------------------- DEV
+
+[tasks.dev]
+description = "Start the database, Django and Vite"
+depends = ["dev:back", "dev:front"]
+
+[tasks."dev:back"]
+description = "Start the Django dev server"
+depends = ["db:up"]
+run = "uv run python manage.py runserver 0.0.0.0:8000"
+
+[tasks."dev:front"]
+description = "Start the Vite dev server"
+dir = "frontend"
+run = "pnpm dev"
+
+[tasks.build]
+description = "Build the frontend and collect static files"
+depends = ["build:front"]
+run = "uv run python manage.py collectstatic --noinput"
+
+[tasks."build:front"]
+description = "Build the frontend"
+dir = "frontend"
+run = "pnpm build"
+
+# ---------------------------------------- DATABASE
+
+[tasks."db:up"]
+description = "Start Postgres and Adminer, waiting until healthy"
+run = "docker compose up -d --wait"
+
+[tasks."db:down"]
+description = "Stop Postgres and Adminer, keeping the data"
+run = "docker compose down"
+
+[tasks."db:reset"]
+description = "Delete the database volume and recreate it with migrations"
+confirm = "Delete all local database data?"
+run = ["docker compose down -v", "docker compose up -d --wait", "uv run python manage.py migrate"]
+
+[tasks."db:logs"]
+description = "Follow the Postgres logs"
+run = "docker compose logs -f db"
+
+# ---------------------------------------- DJANGO
+
+[tasks.manage]
+description = "Run any manage.py command, e.g. mise run manage check"
+raw = true
+run = "uv run python manage.py"
+
+[tasks.migrate]
+description = "Apply migrations"
+depends = ["db:up"]
+run = "uv run python manage.py migrate"
+
+[tasks.migrations]
+description = "Create migrations"
+run = "uv run python manage.py makemigrations"
+
+[tasks.shell]
+description = "Open the Django shell"
+depends = ["db:up"]
+raw = true
+run = "uv run python manage.py shell"
+
+[tasks.superuser]
+description = "Create an admin user"
+depends = ["db:up"]
+raw = true
+run = "uv run python manage.py createsuperuser"
+
+# ---------------------------------------- QUALITY
+
+[tasks.test]
+description = "Run the tests, passing extra arguments to pytest"
+depends = ["db:up"]
+run = "uv run pytest"
+
+[tasks.lint]
+description = "Run all linters and format checks"
+depends = ["lint:*"]
+
+[tasks."lint:back"]
+description = "Lint and check the formatting of Python code"
+run = ["uv run ruff check .", "uv run ruff format --check ."]
+
+[tasks."lint:front"]
+description = "Lint and check the formatting of frontend code"
+dir = "frontend"
+run = ["oxlint", "oxfmt --check"]
+
+[tasks.format]
+description = "Fix lint issues and format all code"
+depends = ["format:*"]
+
+[tasks."format:back"]
+description = "Fix lint issues and format Python code"
+run = ["uv run ruff check --fix .", "uv run ruff format ."]
+
+[tasks."format:front"]
+description = "Fix lint issues and format frontend code"
+dir = "frontend"
+run = ["oxlint --fix", "oxfmt"]
+
+[tasks.typecheck]
+description = "Type check all code"
+depends = ["typecheck:*"]
+
+[tasks."typecheck:back"]
+description = "Type check Python code with mypy"
+run = "uv run mypy ."
+
+[tasks."typecheck:front"]
+description = "Type check frontend code with tsc"
+dir = "frontend"
+run = "tsc --noEmit"
+
+[tasks.check]
+description = "Run linters, type checks and tests"
+depends = ["lint", "typecheck", "test"]
+

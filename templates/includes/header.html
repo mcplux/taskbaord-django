@@ -10,15 +10,32 @@
           <li><a href="#" class="hover:underline">{% translate "Log in" %}</a></li>
         </ul>
       </nav>
-      <button type="button" x-data @click="$store.theme.cycle()"
-              aria-label="{% translate 'Change theme' %}" title="{% translate 'Change theme' %}"
-              class="inline-flex size-9 cursor-pointer items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700">
-        <span x-cloak x-show="$store.theme.mode === 'light'" class="icon-[lucide--sun] size-5"
-              aria-hidden="true"></span>
-        <span x-cloak x-show="$store.theme.mode === 'dark'" class="icon-[lucide--moon] size-5"
-              aria-hidden="true"></span>
-        <span x-cloak x-show="$store.theme.mode === 'system'" class="icon-[lucide--monitor] size-5"
-              aria-hidden="true"></span>
+      <button
+        type="button"
+        x-data
+        @click="$store.theme.cycle()"
+        aria-label="{% translate 'Change theme' %}"
+        title="{% translate 'Change theme' %}"
+        class="inline-flex size-9 cursor-pointer items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700"
+      >
+        <span
+          x-cloak
+          x-show="$store.theme.mode === 'light'"
+          class="icon-[lucide--sun] size-5"
+          aria-hidden="true"
+        ></span>
+        <span
+          x-cloak
+          x-show="$store.theme.mode === 'dark'"
+          class="icon-[lucide--moon] size-5"
+          aria-hidden="true"
+        ></span>
+        <span
+          x-cloak
+          x-show="$store.theme.mode === 'system'"
+          class="icon-[lucide--monitor] size-5"
+          aria-hidden="true"
+        ></span>
       </button>
     </div>
   </div>
