@@ -107,9 +107,9 @@ AUTH_USER_MODEL = "accounts.User"
 
 AUTHENTICATION_BACKENDS = ["apps.accounts.backends.VerifiedUserBackend"]
 
-# LOGIN_URL = ""
-# LOGIN_REDIRECT_URL = ""
-# LOGOUT_REDIRECT_URL = ""
+LOGIN_URL = "auth:login"
+LOGIN_REDIRECT_URL = "/app/"
+LOGOUT_REDIRECT_URL = LOGIN_URL
 
 
 # ---------------------------------------- I18N

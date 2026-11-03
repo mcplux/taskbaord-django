@@ -1,7 +1,9 @@
 from typing import Any
 
+from django.conf import settings
 from django.http import HttpRequest, HttpResponseBase
 from django.http.response import HttpResponse, HttpResponseRedirectBase
+from django.shortcuts import redirect
 from django.utils.cache import patch_vary_headers
 from django.views.generic.base import TemplateResponseMixin, View
 
@@ -37,3 +39,19 @@ class HtmxMixin(TemplateResponseMixin, View):
             return HttpResponse(headers={"HX-Redirect": response.url})
         patch_vary_headers(response, ["HX-Request"])
         return response
+
+
+class AnonymousRequiredMixin(View):
+    """
+    Redirects authenticated users from pages meant for guests
+    """
+
+    authenticated_redirect_url: str | None = None
+
+    def get_authenticated_redirect_url(self) -> str:
+        return self.authenticated_redirect_url or settings.LOGIN_REDIRECT_URL
+
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponseBase:
+        if request.user.is_authenticated:
+            return redirect(self.get_authenticated_redirect_url())
+        return super().dispatch(request, *args, **kwargs)

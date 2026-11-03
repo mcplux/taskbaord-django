@@ -11,6 +11,7 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path("admin/", admin.site.urls),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("", include("apps.cms.urls")),
+    path("auth/", include("apps.accounts.urls.auth")),
 ]
 
 if settings.DEBUG:

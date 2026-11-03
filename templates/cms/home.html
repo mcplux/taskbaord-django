@@ -5,11 +5,10 @@
 {% block meta_desc %}{{ page.meta_description }}{% endblock %}
 
 {% block content %}
-  {% include "includes/header.html" %}
-
-  <main{% if page %} lang="{{ page.language }}"{% endif %}>
+  <main>
     {% if page %}
-      <section class="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2">
+      <section
+          class="mx-auto grid max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-2">
         <div>
           <h1 class="bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-4xl leading-tight font-bold tracking-tight text-transparent sm:text-5xl sm:leading-tight dark:from-indigo-300 dark:to-purple-300">{{ page.hero_title }}</h1>
           {% if page.hero_subtitle %}
@@ -35,7 +34,9 @@
               <h2 class="text-3xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300">{{ page.about_title }}</h2>
             {% endif %}
             {% if page.about_body %}
-              <div class="prose mt-4 max-w-none dark:prose-invert">{{ page.about_body|safe }}</div>
+              <div class="prose mt-4 max-w-none dark:prose-invert">
+                {{ page.about_body|safe }}
+              </div>
             {% endif %}
           </div>
         </section>
@@ -45,7 +46,9 @@
         <div class="mx-auto max-w-5xl px-6 py-16">
           <h2 class="text-3xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300">{{ page.login_title }}</h2>
           {% if page.login_body %}
-            <div class="prose mt-4 max-w-none dark:prose-invert">{{ page.login_body|safe }}</div>
+            <div class="prose mt-4 max-w-none dark:prose-invert">
+              {{ page.login_body|safe }}
+            </div>
           {% endif %}
           <button type="button"
                   class="mt-8 cursor-pointer rounded-md bg-indigo-600 px-5 py-3 font-medium text-white hover:bg-purple-700">
@@ -55,6 +58,4 @@
       </section>
     {% endif %}
   </main>
-
-  {% include "includes/footer.html" %}
 {% endblock %}

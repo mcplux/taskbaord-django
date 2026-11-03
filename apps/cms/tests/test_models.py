@@ -47,6 +47,7 @@ class TestValidateLink:
 
     def test_field_uses_validator(self) -> None:
         page = HomePage(
+            title="Title",
             hero_title="Title",
             login_title="Login",
             hero_cta_label="Go",

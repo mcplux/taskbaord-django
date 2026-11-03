@@ -22,16 +22,29 @@ def default_language() -> str:
     return get_supported_language_variant(settings.LANGUAGE_CODE)
 
 
-class HomePage(models.Model):
+class PageModel(models.Model):
     """
-    Home page content. The layout is fixed, editors control what each block says.
+    Abstract class for CMS pages.
     """
 
     language = models.CharField(
         _("language"), choices=language_choices, default=default_language(), unique=True
     )
-
+    title = models.CharField(_("seo title"), max_length=100)
     meta_description = models.CharField(_("meta description"), max_length=160, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self) -> str:
+        return f"{self.title} ({self.language})"
+
+
+class HomePage(PageModel):
+    """
+    Home page content.
+    """
 
     hero_title = models.CharField(_("title"), max_length=200)
     hero_subtitle = models.TextField(_("subtitle"), blank=True)
@@ -52,8 +65,6 @@ class HomePage(models.Model):
     login_body = CKEditor5Field(_("body"), blank=True)
     login_button_label = models.CharField(_("button label"), max_length=50, default="Log in")
 
-    updated_at = models.DateTimeField(auto_now=True)
-
     class Meta:
         verbose_name = _("home page")
         verbose_name_plural = _("home page")
@@ -68,10 +79,6 @@ class HomePage(models.Model):
             raise ValidationError(
                 {field: _("A hero button needs both a label and a link.")},
             )
-
-    @property
-    def title(self) -> str:
-        return self.hero_title
 
     @classmethod
     def for_active_language(cls) -> Self | None:

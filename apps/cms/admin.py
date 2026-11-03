@@ -17,6 +17,7 @@ class HomePageAdmin(admin.ModelAdmin[HomePage]):
             {
                 "fields": (
                     "language",
+                    "title",
                     "meta_description",
                 )
             },

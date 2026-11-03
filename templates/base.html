@@ -1,33 +1,38 @@
-{% load django_vite %}
+{% load django_vite i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="UTF-8"/>
+  <meta
       name="viewport"
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="description" content="{% block meta_desc %}{% endblock %}" />
-    <title>{% block title %}{% endblock %}</title>
-    <script>
+  />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <meta name="description" content="{% block meta_desc %}{% endblock %}"/>
+  <title>{% block title %}{% endblock %}</title>
+  <script>
       (() => {
-        let theme = "system";
-        try {
-          theme = localStorage.getItem("theme") || "system";
-        } catch {}
-        const dark =
-          theme === "dark" ||
-          (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-        document.documentElement.classList.toggle("dark", dark);
+          let theme = "system";
+          try {
+              theme = localStorage.getItem("theme") || "system";
+          } catch {
+          }
+          const dark =
+              theme === "dark" ||
+              (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
       })();
-    </script>
-    {% vite_hmr_client %} {% vite_asset "src/main.ts" %}
-  </head>
-  <body
+  </script>
+  {% vite_hmr_client %} {% vite_asset "src/main.ts" %}
+</head>
+<body
     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-    class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-800 dark:text-white antialiased {% block body_class %}{% endblock %}"
-  >
-    {% block content %} {% endblock %}
-  </body>
+    class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-800 dark:text-white antialiased
+        {% block body_class %}{% endblock %}"
+>
+{% include "includes/header.html" %}
+{% block content %} {% endblock %}
+{% include "includes/footer.html" %}
+</body>
 </html>
