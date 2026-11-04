@@ -11,16 +11,24 @@
             {% translate "Home" %}
           </a>
         </li>
-        <li>
-          <a href="{% url 'auth:login' %}" class="hover:underline">
-            {% translate "Log in" %}
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'auth:register' %}" class="hover:underline">
-            {% translate "Sign up" %}
-          </a>
-        </li>
+        {% if user.is_authenticated %}
+          <li>
+            <a href="/app/" class="hover:underline">
+              {% translate "Dashboard" %}
+            </a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{% url 'auth:login' %}" class="hover:underline">
+              {% translate "Log in" %}
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'auth:register' %}" class="hover:underline">
+              {% translate "Sign up" %}
+            </a>
+          </li>
+        {% endif %}
       </ul>
     </nav>
   </div>

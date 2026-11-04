@@ -12,17 +12,26 @@
               {% translate "Home" %}
             </a>
           </li>
-          <li>
-            <a href="{% url 'auth:login' %}" class="hover:underline">
-              {% translate "Log in" %}
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'auth:register' %}"
-               class="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600  p-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              {% translate "Sign up" %}
-            </a>
-          </li>
+          {% if user.is_authenticated %}
+            <li>
+              <a href="/app/"
+                 class="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600  p-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                {% translate "Dashboard" %}
+              </a>
+            </li>
+          {% else %}
+            <li>
+              <a href="{% url 'auth:login' %}" class="hover:underline">
+                {% translate "Log in" %}
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'auth:register' %}"
+                 class="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600  p-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                {% translate "Sign up" %}
+              </a>
+            </li>
+          {% endif %}
         </ul>
       </nav>
       <button

@@ -16,7 +16,7 @@
           {% endif %}
           {% if page.hero_cta_label and page.hero_cta_url %}
             <a href="{{ page.hero_cta_url }}"
-               class="mt-8 inline-block rounded-md bg-indigo-600 px-5 py-3 font-medium text-white hover:bg-purple-700">
+               class="mt-8 inline-block rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600  p-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               {{ page.hero_cta_label }}
             </a>
           {% endif %}
@@ -42,20 +42,22 @@
         </section>
       {% endif %}
 
-      <section class="border-t border-slate-200 dark:border-slate-700">
-        <div class="mx-auto max-w-5xl px-6 py-16">
-          <h2 class="text-3xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300">{{ page.login_title }}</h2>
-          {% if page.login_body %}
-            <div class="prose mt-4 max-w-none dark:prose-invert">
-              {{ page.login_body|safe }}
-            </div>
-          {% endif %}
-          <button type="button"
-                  class="mt-8 cursor-pointer rounded-md bg-indigo-600 px-5 py-3 font-medium text-white hover:bg-purple-700">
-            {{ page.login_button_label }}
-          </button>
-        </div>
-      </section>
+      {% if not user.is_authenticated %}
+        <section class="border-t border-slate-200 dark:border-slate-700">
+          <div class="mx-auto max-w-5xl px-6 py-16">
+            <h2 class="text-3xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300">{{ page.login_title }}</h2>
+            {% if page.login_body %}
+              <div class="prose mt-4 max-w-none dark:prose-invert">
+                {{ page.login_body|safe }}
+              </div>
+            {% endif %}
+            <a href="{% url 'auth:login' %}" type="button"
+               class="mt-8 inline-block rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600  p-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              {{ page.login_button_label }}
+            </a>
+          </div>
+        </section>
+      {% endif %}
     {% endif %}
   </main>
 {% endblock %}
