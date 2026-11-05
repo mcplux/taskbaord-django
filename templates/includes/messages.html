@@ -1,0 +1,7 @@
+{% if messages %}
+  <div class="mx-auto mt-4 w-full max-w-5xl space-y-2 px-6">
+    {% for message in messages %}
+      <p role="status" class="rounded-lg border border-indigo-200 bg-indigo-50 p-3 text-sm text-indigo-800 dark:border-indigo-500/40 dark:bg-indigo-500/10 dark:text-indigo-200">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}

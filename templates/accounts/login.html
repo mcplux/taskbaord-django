@@ -1,1 +1,52 @@
-{% extends "base.html" %}
+{% extends "accounts/auth_base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Log in" %} - Taskboard{% endblock %}
+{% block meta_desc %}{% translate "Log in to your Taskboard account." %}{% endblock %}
+
+{% block aside_title %}{% translate "Pick up right where you left off" %}{% endblock %}
+{% block aside_body %}{% translate "Your boards and tasks are waiting for you." %}{% endblock %}
+{% block aside_items %}
+  {% translate "See your boards" as title %}
+  {% translate "Every project in one place, ready when you are." as text %}
+  {% include "accounts/includes/aside_item.html" with icon="icon-[lucide--layout-dashboard]" %}
+  {% translate "Track your progress" as title %}
+  {% translate "Know what is done and what comes next at a glance." as text %}
+  {% include "accounts/includes/aside_item.html" with icon="icon-[lucide--circle-check-big]" %}
+  {% translate "Stay focused" as title %}
+  {% translate "Keep your attention on the tasks that matter today." as text %}
+  {% include "accounts/includes/aside_item.html" with icon="icon-[lucide--target]" %}
+{% endblock %}
+
+{% block panel %}
+  <h1 class="text-2xl font-bold tracking-tight">{% translate "Log in to Taskboard" %}</h1>
+
+  {% partialdef form inline %}
+    <form method="post" action="{% url 'auth:login' %}" novalidate
+          hx-post="{% url 'auth:login' %}" hx-target="this" hx-swap="outerHTML"
+          hx-disabled-elt="find button[type='submit']"
+          class="mt-6 space-y-4">
+      {% csrf_token %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      {% include "accounts/includes/non_field_errors.html" %}
+      {{ form.username.as_field_group }}
+      {{ form.password.as_field_group }}
+      <div class="flex items-center justify-between gap-4">
+        {{ form.remember_me.as_field_group }}
+        <a href="#"
+           class="text-sm font-medium text-indigo-700 hover:underline dark:text-indigo-300">
+          {% translate "Forgot password?" %}
+        </a>
+      </div>
+      <button type="submit"
+              class="w-full cursor-pointer rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 p-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-70 dark:focus:ring-offset-slate-900">
+        {% translate "Log in" %}
+      </button>
+    </form>
+  {% endpartialdef %}
+
+  {% translate "New to Taskboard?" as prompt %}
+  {% translate "Create new account" as label %}
+  {% url 'auth:register' as href %}
+  {% include "accounts/includes/switch_link.html" %}
+{% endblock %}

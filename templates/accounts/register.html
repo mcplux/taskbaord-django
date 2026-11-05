@@ -1,1 +1,50 @@
-{% extends "base.html" %}
+{% extends "accounts/auth_base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Sign up" %} - Taskboard{% endblock %}
+{% block meta_desc %}{% translate "Create your Taskboard account." %}{% endblock %}
+
+{% block aside_title %}{% translate "Bring order to your work" %}{% endblock %}
+{% block aside_body %}
+  {% translate "Create your account and start organizing your tasks." %}{% endblock %}
+{% block aside_items %}
+  {% translate "Organize with boards" as title %}
+  {% translate "Give every project its own space." as text %}
+  {% include "accounts/includes/aside_item.html" with icon="icon-[lucide--layout-dashboard]" %}
+  {% translate "Plan your tasks" as title %}
+  {% translate "Break big goals into small, manageable steps." as text %}
+  {% include "accounts/includes/aside_item.html" with icon="icon-[lucide--list-checks]" %}
+  {% translate "Move work forward" as title %}
+  {% translate "Follow each task from idea to done." as text %}
+  {% include "accounts/includes/aside_item.html" with icon="icon-[lucide--rocket]" %}
+{% endblock %}
+
+{% block panel %}
+  <h1 class="text-2xl font-bold tracking-tight">{% translate "Create your account" %}</h1>
+
+  {% partialdef form inline %}
+    <form method="post" action="{% url 'auth:register' %}" novalidate
+          hx-post="{% url 'auth:register' %}" hx-target="this" hx-swap="outerHTML"
+          hx-disabled-elt="find button[type='submit']"
+          class="mt-6 space-y-4">
+      {% csrf_token %}
+      {% include "accounts/includes/non_field_errors.html" %}
+      {{ form.email.as_field_group }}
+      <div class="grid gap-4 sm:grid-cols-2">
+        {{ form.first_name.as_field_group }}
+        {{ form.last_name.as_field_group }}
+      </div>
+      {{ form.password1.as_field_group }}
+      {{ form.password2.as_field_group }}
+      <button type="submit"
+              class="w-full cursor-pointer rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 p-2.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-70 dark:focus:ring-offset-slate-900">
+        {% translate "Sign up" %}
+      </button>
+    </form>
+  {% endpartialdef %}
+
+  {% translate "Already have an account?" as prompt %}
+  {% translate "Log in" as label %}
+  {% url 'auth:login' as href %}
+  {% include "accounts/includes/switch_link.html" %}
+{% endblock %}

@@ -7,9 +7,10 @@ from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from apps.accounts.models import User
+from apps.core.forms import TailwindFormMixin
 
 
-class RegisterForm(BaseUserCreationForm[User]):
+class RegisterForm(TailwindFormMixin, BaseUserCreationForm[User]):
     class Meta:
         model = User
         fields = ("email", "first_name", "last_name")
@@ -28,7 +29,7 @@ class RegisterForm(BaseUserCreationForm[User]):
         return User.objects.normalize_email(self.cleaned_data["email"])
 
 
-class LoginForm(AuthenticationForm):
+class LoginForm(TailwindFormMixin, AuthenticationForm):
     remember_me = forms.BooleanField(label=_("Remember me"), required=False)
 
     error_messages = {  # noqa: RUF012
