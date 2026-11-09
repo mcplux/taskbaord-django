@@ -26,6 +26,7 @@ LOCAL_APPS = [
     "apps.accounts",
     "apps.cms",
     "apps.core",
+    "apps.tasks",
 ]
 
 THIRD_PARTY_APPS = [
