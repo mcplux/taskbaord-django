@@ -7,6 +7,19 @@ from django.utils.translation import gettext_lazy as _
 from apps.accounts.models import User
 
 
+class TaskStatus(models.TextChoices):
+    TODO = "todo", _("To do")
+    IN_PROGRESS = "in_progress", _("In progress")
+    DONE = "done", _("Done")
+
+
+class TaskPriority(models.IntegerChoices):
+    LOW = 1, _("Low")
+    MEDIUM = 2, _("Medium")
+    HIGH = 3, _("High")
+    URGENT = 4, _("Urgent")
+
+
 class Task(models.Model):
     """
     Unit of work on the board
@@ -20,16 +33,8 @@ class Task(models.Model):
         "due_date",
     )
 
-    class Status(models.TextChoices):
-        TODO = "todo", _("To do")
-        IN_PROGRESS = "in_progress", _("In progress")
-        DONE = "done", _("Done")
-
-    class Priority(models.IntegerChoices):
-        LOW = 1, _("Low")
-        MEDIUM = 2, _("Medium")
-        HIGH = 3, _("High")
-        URGENT = 4, _("Urgent")
+    Status = TaskStatus
+    Priority = TaskPriority
 
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -96,10 +101,13 @@ class Task(models.Model):
         }
 
 
+class TaskActivityAction(models.TextChoices):
+    CREATED = "created", _("Created")
+    UPDATED = "updated", _("Updated")
+
+
 class TaskActivity(models.Model):
-    class Action(models.TextChoices):
-        CREATED = "created", _("Created")
-        UPDATED = "updated", _("Updated")
+    Action = TaskActivityAction
 
     task = models.ForeignKey(
         Task, on_delete=models.CASCADE, related_name="activities", verbose_name=_("task")

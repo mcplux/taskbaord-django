@@ -7,11 +7,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import URLPattern, URLResolver, include, path
 
+from .api import api
+
 urlpatterns: list[URLPattern | URLResolver] = [
     path("admin/", admin.site.urls),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("", include("apps.cms.urls")),
     path("auth/", include("apps.accounts.urls.auth")),
+    path("api/", api.urls),
 ]
 
 if settings.DEBUG:

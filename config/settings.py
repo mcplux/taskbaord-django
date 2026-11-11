@@ -32,6 +32,8 @@ LOCAL_APPS = [
 THIRD_PARTY_APPS = [
     "django_ckeditor_5",
     "django_vite",
+    "ninja",
+    "ninja_extra",
 ]
 
 DJANGO_APPS = [
