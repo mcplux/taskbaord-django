@@ -36,3 +36,11 @@ class TaskAdmin(admin.ModelAdmin[Task]):
         user = cast(User, request.user)
         obj.save(actor=user)
         super().save_model(request, obj, form, change)
+
+
+@admin.register(TaskActivity)
+class TaskActivityAdmin(ReadOnlyAdminMixin, admin.ModelAdmin[TaskActivity]):
+    list_display = ("__str__", "actor", "created_at")
+    list_filter = ("created_at", "action")
+    search_fields = ("task__title",)
+    date_hierarchy = "created_at"
