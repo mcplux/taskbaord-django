@@ -1,7 +1,7 @@
 import './style.css'
 import htmx from 'htmx.org'
 import alpine from 'alpinejs'
-import { themeStore } from './stores/theme.ts'
+import { themeStore } from './alpine/stores/theme.ts'
 
 declare global {
   interface Window {
