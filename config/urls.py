@@ -15,6 +15,7 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path("", include("apps.cms.urls")),
     path("auth/", include("apps.accounts.urls.auth")),
     path("api/", api.urls),
+    path("", include("apps.dashboard.urls")),
 ]
 
 if settings.DEBUG:

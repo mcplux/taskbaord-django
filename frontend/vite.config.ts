@@ -4,11 +4,13 @@ import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 
+const root = fileURLToPath(new URL('./src', import.meta.url))
+
 export default defineConfig({
   base: '/static/',
   plugins: [tailwindcss(), vue()],
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: { '@': resolve(root, 'src'), '@dashboard': resolve(root, 'src/dashboard') },
   },
   server: {
     port: 5173,
@@ -17,11 +19,13 @@ export default defineConfig({
     cors: true,
   },
   build: {
-    outDir: resolve(import.meta.dirname, 'dist'),
+    outDir: resolve(root, 'dist'),
+    emptyOutDir: true,
     manifest: 'manifest.json',
     rollupOptions: {
       input: {
-        main: resolve(import.meta.dirname, 'src/main.ts'),
+        main: resolve(root, 'src/main.ts'),
+        dashboard: resolve(root, 'src/dashboard/main.ts'),
       },
     },
   },

@@ -28,21 +28,21 @@ class TaskController(ControllerBase):
             self.get_queryset(), error_message=f"task with id {task_id} not found", pk=task_id
         )
 
-    @route.post("", response={status.HTTP_201_CREATED: TaskOut})
+    @route.post("", response={status.HTTP_201_CREATED: TaskOut}, operation_id="create_task")
     def create_task(self, payload: TaskIn) -> Status[Task]:
         task = Task(owner=self.user, **payload.model_dump())
         task.save(actor=self.user)
         return Status(status.HTTP_201_CREATED, task)
 
-    @route.get("", response={status.HTTP_200_OK: list[TaskOut]})
+    @route.get("", response={status.HTTP_200_OK: list[TaskOut]}, operation_id="list_tasks")
     def list_task(self) -> Status[QuerySet[Task]]:
         return Status(status.HTTP_200_OK, self.get_queryset())
 
-    @route.get("/{task_id}", response={status.HTTP_200_OK: TaskOut})
+    @route.get("/{task_id}", response={status.HTTP_200_OK: TaskOut}, operation_id="retrieve_task")
     def retrieve_task(self, task_id: int) -> Task:
         return self.get_task(task_id)
 
-    @route.put("/{task_id}", response={status.HTTP_200_OK: TaskOut})
+    @route.put("/{task_id}", response={status.HTTP_200_OK: TaskOut}, operation_id="update_task")
     def update_task(self, task_id: int, payload: TaskIn) -> Task:
         task = self.get_task(task_id)
         for field, value in payload.model_dump(exclude_unset=True).items():
@@ -50,7 +50,9 @@ class TaskController(ControllerBase):
         task.save(actor=self.user)
         return task
 
-    @route.patch("/{task_id}", response={status.HTTP_200_OK: TaskOut})
+    @route.patch(
+        "/{task_id}", response={status.HTTP_200_OK: TaskOut}, operation_id="update_task_partially"
+    )
     def update_task_partially(self, task_id: int, payload: TaskPatch) -> Task:
         task = self.get_task(task_id)
         for field, value in payload.model_dump(exclude_unset=True).items():
@@ -60,11 +62,17 @@ class TaskController(ControllerBase):
         task.save(actor=self.user)
         return task
 
-    @route.delete("/{task_id}", response={status.HTTP_204_NO_CONTENT: None})
+    @route.delete(
+        "/{task_id}", response={status.HTTP_204_NO_CONTENT: None}, operation_id="delete_task"
+    )
     def delete_task(self, task_id: int) -> Status[None]:
         self.get_task(task_id).delete()
         return Status(status.HTTP_204_NO_CONTENT, None)
 
-    @route.get("/{task_id}/activities", response={status.HTTP_200_OK: list[TaskActivityOut]})
+    @route.get(
+        "/{task_id}/activities",
+        response={status.HTTP_200_OK: list[TaskActivityOut]},
+        operation_id="get_task_activities",
+    )
     def get_task_activities(self, task_id: int) -> QuerySet[TaskActivity]:
         return self.get_task(task_id).activities.all()
