@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import DashboardLayout from './layouts/DashboardLayout.vue'
+</script>
+
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <RouterView/>
-  </div>
+  <DashboardLayout>
+    <RouterView />
+  </DashboardLayout>
 </template>

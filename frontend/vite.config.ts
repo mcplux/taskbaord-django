@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 
-const root = fileURLToPath(new URL('./src', import.meta.url))
+const root = fileURLToPath(new URL('.', import.meta.url))
 
 export default defineConfig({
   base: '/static/',
